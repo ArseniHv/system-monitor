@@ -2,30 +2,27 @@
 #include <string>
 #include <vector>
 
-// All data structures shared between the collector thread and the
-// main/renderer thread. Access must be protected by a std::mutex.
-
 struct CpuCoreData {
-    int     core_id   = 0;
-    double  usage_pct = 0.0;            // 0–100
-    std::vector<double> history;        // last N readings for sparkline 
+    int    core_id    = 0;
+    double usage_pct  = 0.0;
+    std::vector<double> history; 
 };
 
 struct CpuData {
-    std::string            model_name;  // from /proc/cpuinfo
+    std::string              model_name; 
     std::vector<CpuCoreData> cores;
-    double                 total_usage_pct = 0.0;
+    double                   total_usage_pct = 0.0;
 };
 
 struct MemoryData {
-    long total_kb   = 0;
-    long used_kb    = 0;
+    long total_kb      = 0;
+    long used_kb       = 0;
     long swap_total_kb = 0;
     long swap_used_kb  = 0;
 };
 
 struct ProcessInfo {
-    int         pid  = 0;
+    int         pid     = 0;
     std::string name;
     double      cpu_pct = 0.0;
 };
@@ -36,7 +33,7 @@ struct NetworkData {
     double tx_bytes_per_sec = 0.0;
 };
 
-struct DiskData {                      
+struct DiskData {          
     std::string device;
     double read_mb_per_sec  = 0.0;
     double write_mb_per_sec = 0.0;
@@ -46,9 +43,11 @@ struct SystemData {
     CpuData                  cpu;
     MemoryData               memory;
     NetworkData              network;
-    DiskData                 disk;      
+    DiskData                 disk;
     std::vector<ProcessInfo> processes;
     double                   uptime_seconds = 0.0;
-    std::string              hostname;  
-    double load1 = 0.0, load5 = 0.0, load15 = 0.0; 
+    std::string              hostname;     
+    double load1  = 0.0;                  
+    double load5  = 0.0;
+    double load15 = 0.0;
 };
