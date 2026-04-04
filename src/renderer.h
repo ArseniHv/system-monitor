@@ -7,6 +7,7 @@ struct RenderConfig {
     bool use_color    = true;
     int  bar_width    = 20;
     int  sparkline_len = 20;
+    int  refresh_ms    = 1000;
 };
 
 class Renderer {

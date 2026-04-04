@@ -166,9 +166,11 @@ void Renderer::render_cpu(const SystemData& d, int& row) {
         reset_color();
         std::cout << "  " << spark;
 
-        // Pad to fill the box.
-        // spark chars are multi-byte; approximate padding.
-        int pad = box_width_ - 2 - 14 - cfg_.bar_width - 8 - (int)spark.size();
+       // spark.size() counts bytes; each sparkline char is 3 bytes (UTF-8)
+        // but displays as 1 column. Adjust for display width.
+        int spark_display_cols = (int)core.history.size();
+        int printed_cols = 14 + cfg_.bar_width + 8 + spark_display_cols;
+        int pad = box_width_ - 2 - printed_cols;
         for (int i = 0; i < pad; ++i) std::cout << ' ';
         std::cout << "│";
     }
@@ -331,7 +333,8 @@ void Renderer::render_footer(int row) {
     std::cout << sep;
 
     move_to(row++, 1);
-    std::string hint = "  [q] quit   [r] refresh now";
+    std::string hint = "  [q] quit   [r] refresh now   interval: "
+                     + std::to_string(cfg_.refresh_ms) + "ms";
     std::cout << "│" << pad_right(hint, box_width_ - 2) << "│";
 
     move_to(row++, 1);
@@ -341,8 +344,9 @@ void Renderer::render_footer(int row) {
     set_color(BOLD);
     std::cout << bot;
     reset_color();
+    // Move cursor below the box so the shell prompt appears cleanly on exit.
+    std::cout << "\033[" << row << ";1H";
 }
-
 // ── Helpers ───────────────────────────────────────────────────────
 
 std::string Renderer::progress_bar(double pct) const {

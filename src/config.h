@@ -8,7 +8,7 @@ struct Config {
     int         sparkline_len = 20;
     std::string network_iface = "";
     std::string disk_device   = "";
-    std::string version       = "0.1.0";
+    std::string version       = SYSPEEK_VERSION;
 };
 
 Config      load_config_file();

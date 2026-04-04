@@ -64,6 +64,7 @@ int main(int argc, char** argv) {
     rcfg.use_color     = cfg.use_color;
     rcfg.bar_width     = cfg.bar_width;
     rcfg.sparkline_len = cfg.sparkline_len;
+     rcfg.refresh_ms    = cfg.refresh_ms;
     Renderer renderer(rcfg);
 
     // Set up signal handlers for clean exit.
