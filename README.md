@@ -26,10 +26,11 @@ main thread using raw ANSI escape codes.
 
 ## Architecture
 
+~~~
 Main Thread                        Collector Thread
-│                                    │
-│   ←── shared_data (mutex) ──→      │
-│                                    │
+     │                                    │
+     │   ←── shared_data (mutex) ──→      │
+     │                                    │
 Render UI                         Read /proc/stat
 (ANSI codes)                      Read /proc/meminfo
 every N ms                        Read /proc/net/dev
@@ -124,8 +125,8 @@ refresh_ms=1000
 use_color=true
 bar_width=20
 sparkline_len=20
-network_iface=eth0
-disk_device=sda
+# network_iface=eth0
+# disk_device=sda
 Command-line flags always override the config file.
 
 ---
@@ -146,4 +147,4 @@ Command-line flags always override the config file.
 |-------|--------------------|
 | Green  | 0 – 49% |
 | Yellow | 50 – 79% |
-| Red    | 80 – 100% |
+| Red    | 80 – 100% |cmake -B build -DCMAKE_BUILD_TYPE=Release
