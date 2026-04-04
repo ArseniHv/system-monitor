@@ -125,8 +125,8 @@ refresh_ms=1000
 use_color=true
 bar_width=20
 sparkline_len=20
-# network_iface=eth0
-# disk_device=sda
+network_iface=eth0
+disk_device=sda
 Command-line flags always override the config file.
 
 ---
