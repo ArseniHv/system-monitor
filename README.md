@@ -26,11 +26,7 @@ main thread using raw ANSI escape codes.
 
 ## Architecture
 
-~~~
 Main Thread                        Collector Thread
-     │                                    │
-     │   ←── shared_data (mutex) ──→      │
-     │                                    │
 Render UI                         Read /proc/stat
 (ANSI codes)                      Read /proc/meminfo
 every N ms                        Read /proc/net/dev
