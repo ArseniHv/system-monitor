@@ -26,13 +26,18 @@ main thread using raw ANSI escape codes.
 
 ## Architecture
 
+~~~
 Main Thread                        Collector Thread
-Render UI                         Read /proc/stat
-(ANSI codes)                      Read /proc/meminfo
-every N ms                        Read /proc/net/dev
-Read /proc/diskstats
-Read /proc/[pid]/stat
-Sleep(refresh_ms)
+     │                                    │
+     │   ←── shared_data (mutex) ──→      │
+     │                                    │
+  Render UI                         Read /proc/stat
+  (ANSI codes)                      Read /proc/meminfo
+  every N ms                        Read /proc/net/dev
+                                    Read /proc/diskstats
+                                    Read /proc/[pid]/stat
+                                    Sleep(refresh_ms)
+~~~
 
 Two threads run concurrently, communicating through a `SystemData` struct
 protected by a `std::mutex`:
@@ -58,7 +63,6 @@ demonstrates direct knowledge of how terminal control actually works.
 The tradeoff is that we handle width calculations and Unicode manually,
 which is why the sparkline padding explicitly accounts for multi-byte
 UTF-8 characters.
-
 ---
 
 ## What is /proc?
